@@ -1,4 +1,5 @@
 import logins from "../models/Login.js";
+import jwt from 'jsonwebtoken';
 
 class LoginController {
 
@@ -41,6 +42,33 @@ class LoginController {
     }
   }
 
+  static login = async (req, res) => {
+
+    const secret = 'abcdeabcde';
+    const id = req.body.user
+    const token = jwt.sign({
+      id: id._id
+    },secret)
+
+    try {
+      const {user, password} = req.body;
+
+      const {password:passwordMongo, ...userMongo} = await logins.findOne({user})
+      if(userMongo) {
+        if (password === passwordMongo) {
+          console.log(token)
+          return res.status(200).json(token)  
+        } 
+        throw new Error('Usuario ou senha invalido')
+
+      } throw new Error('Usuario ou senha invalido')
+    } catch (error) {
+      return res.status(422).json({ error: error.message})
+      
+    }
+    
+  }
+  
 }
 
 export default LoginController

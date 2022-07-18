@@ -1,8 +1,7 @@
 import mongoose from "mongoose";
 
-const LoginsSchema = new mongoose.Schema(
+const ValidationLoginsSchema = new mongoose.Schema(
   {
-    id: {type: String},
     user: {type: String, required: true},
     password: {type: String, required: true} 
   },
@@ -11,6 +10,6 @@ const LoginsSchema = new mongoose.Schema(
   }
 )
 
-const logins = mongoose.model("logins", LoginsSchema)
+const Validationlogins = mongoose.model("validation", ValidationLoginsSchema)
 
-export default logins;
+export default Validationlogins;
