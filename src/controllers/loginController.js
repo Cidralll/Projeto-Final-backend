@@ -3,28 +3,6 @@ import jwt from 'jsonwebtoken';
 
 class LoginController {
 
-  static listLogin = (req, res) => {
-    logins.find((err, logins) => {
-      if(err) {
-        res.status(500).send({message: `${err.message} - Failed to get logins.`})
-      } else {
-        res.status(200).json(logins)
-      }
-  })
-  }
-
-  static listLoginId = (req, res) => {
-    const id = req.params.id;
-
-    logins.findById(id, (err, logins) => {
-      if(err) {
-        res.status(404).send({message: `${err.message} - Login not found.`})
-      } else {
-        res.status(200).send(logins);
-      }
-    })
-  }
-
   static createLogin = (req, res) => {
     let Login = new logins(req.body);
     if (Login){
@@ -48,7 +26,7 @@ class LoginController {
     const id = req.body.user
     const token = jwt.sign({
       id: id._id
-    },secret)
+    },secret, {expiresIn:'60s'})
 
     try {
       const {user, password} = req.body;
@@ -56,12 +34,11 @@ class LoginController {
       const {password:passwordMongo, ...userMongo} = await logins.findOne({user})
       if(userMongo) {
         if (password === passwordMongo) {
-          console.log(token)
-          return res.status(200).json(token)  
+          return res.status(202).json(token)  
         } 
-        throw new Error('Usuario ou senha invalido')
+        throw new Error('Usuário ou senha inválidos')
 
-      } throw new Error('Usuario ou senha invalido')
+      } throw new Error('Usuário ou senha inválidos')
     } catch (error) {
       return res.status(422).json({ error: error.message})
       

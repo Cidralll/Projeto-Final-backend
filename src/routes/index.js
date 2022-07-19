@@ -1,6 +1,5 @@
 import express from "express";
 import login from './loginRoutes.js';
-import validation from './validation.js';
 
 const routes = (app) => {
   app.route('/').get((req, res) => {
@@ -15,9 +14,7 @@ const routes = (app) => {
     login
   )
 
-  app.use (
-    validation
-  )
+  
 }
 
   
