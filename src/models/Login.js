@@ -16,9 +16,7 @@ const LoginsSchema = new mongoose.Schema(
 LoginsSchema.methods.isValidation = function() {
   let user = ValidationUser(this.user);
   let password = ValidationPassword(this.password);
-  console.log(user)
   if (user === true && password === true) {
-    console.log('Primeiro console');
     return true;
   }else if (user === false || password === false){
     return false;
