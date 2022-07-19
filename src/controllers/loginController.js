@@ -5,18 +5,18 @@ class LoginController {
 
   static createLogin = (req, res) => {
     let Login = new logins(req.body);
-    if (Login){
+    if (Login.isValidation()){
       if(Login){
         Login.save((err) => {
           if(err) {
             res.status(500).send({message: `${err.message} - Failed to register Login.`})
           } else {
-            res.status(201).send(Login.toJSON())
+            res.status(201).send({message: `User registered successfully`})
           }
         })
-      }else{
-        res.status(400).send({message: `Failed to register Login. Check the information and try again!`})
       }
+    }else {
+      res.status(400).send({message: `Failed to register Login. Check the information and try again!`})
     }
   }
 
