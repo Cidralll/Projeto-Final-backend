@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import ValidationUser from '../validation/validationUser.js';
 import ValidationPassword from "../validation/validationPassword.js";
+import bcrypt from 'bcrypt';
 
 const LoginsSchema = new mongoose.Schema(
   {
@@ -21,6 +22,15 @@ LoginsSchema.methods.isValidation = function() {
   }else if (user === false || password === false){
     return false;
   }
+}
+
+LoginsSchema.methods.passwordHash = async function() {
+  let password = this.password;
+
+  const salt = await bcrypt.genSalt(12);
+  const passwordHash = await bcrypt.hash(password, salt);
+  console.log(passwordHash)
+  return this.password = passwordHash;
 }
 
 const logins = mongoose.model("logins", LoginsSchema)
