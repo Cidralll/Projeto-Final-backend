@@ -29,7 +29,6 @@ LoginsSchema.methods.passwordHash = async function() {
 
   const salt = await bcrypt.genSalt(12);
   const passwordHash = await bcrypt.hash(password, salt);
-  console.log(passwordHash)
   return this.password = passwordHash;
 }
 
